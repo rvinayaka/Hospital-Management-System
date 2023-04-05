@@ -19,3 +19,9 @@ WARNING:2023-04-05 10:29:57,451:app:Hence details displayed, closing the connect
 WARNING:2023-04-05 10:29:57,451:app:Hence details displayed, closing the connection
 WARNING:2023-04-05 10:29:57,451:app:Hence details displayed, closing the connection
 WARNING:2023-04-05 10:29:57,451:app:Hence details displayed, closing the connection
+WARNING:2023-04-05 12:42:03,328:app:Starting the db connection to display all patients in the list
+INFO:2023-04-05 12:42:03,584:app:Displayed list of all patients in the list
+INFO:2023-04-05 12:42:03,584:app:Displayed list of all patients in the list
+WARNING:2023-04-05 12:42:03,587:app:Closing the connection
+WARNING:2023-04-05 12:42:03,587:app:Closing the connection
+WARNING:2023-04-05 12:42:03,587:app:Closing the connection
