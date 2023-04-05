@@ -1,0 +1,21 @@
+WARNING:2023-04-05 10:29:47,014:app:Starting the db connection to display patient's details in the report
+INFO:2023-04-05 10:29:47,141:app:Displayed patient's details in the list
+INFO:2023-04-05 10:29:47,141:app:Displayed patient's details in the list
+WARNING:2023-04-05 10:29:47,143:app:Hence details displayed, closing the connection
+WARNING:2023-04-05 10:29:47,143:app:Hence details displayed, closing the connection
+WARNING:2023-04-05 10:29:47,143:app:Hence details displayed, closing the connection
+WARNING:2023-04-05 10:29:57,246:app:Starting the db connection to search patients in the list
+WARNING:2023-04-05 10:29:57,246:app:Starting the db connection to search patients in the list
+WARNING:2023-04-05 10:29:57,246:app:Starting the db connection to search patients in the list
+WARNING:2023-04-05 10:29:57,246:app:Starting the db connection to search patients in the list
+INFO:2023-04-05 10:29:57,450:app:Displayed all patients with Andrew in the list
+INFO:2023-04-05 10:29:57,450:app:Displayed all patients with Andrew in the list
+INFO:2023-04-05 10:29:57,450:app:Displayed all patients with Andrew in the list
+INFO:2023-04-05 10:29:57,450:app:Displayed all patients with Andrew in the list
+INFO:2023-04-05 10:29:57,450:app:Displayed all patients with Andrew in the list
+WARNING:2023-04-05 10:29:57,451:app:Hence details displayed, closing the connection
+WARNING:2023-04-05 10:29:57,451:app:Hence details displayed, closing the connection
+WARNING:2023-04-05 10:29:57,451:app:Hence details displayed, closing the connection
+WARNING:2023-04-05 10:29:57,451:app:Hence details displayed, closing the connection
+WARNING:2023-04-05 10:29:57,451:app:Hence details displayed, closing the connection
+WARNING:2023-04-05 10:29:57,451:app:Hence details displayed, closing the connection
