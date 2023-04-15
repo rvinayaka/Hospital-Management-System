@@ -12,10 +12,10 @@ app = Flask(__name__)
 # admission DATE NOT NULL, treatments VARCHAR(400), discharge DATE NOT NULL);
 
 # Table:
-#  sno | patient_name | admission  |     treatments     | discharge
-# -----+--------------+------------+--------------------+------------
-#    1 | Andrew       | 1912-06-19 | band-aid, glucose  | 1912-07-02
-#    2 | Hosikage     | 1929-10-09 | Check-up, Insuline | 1929-10-30
+#  sno | patient_name | admission  |     treatments     | discharge  |      order_tests      |  test_results   |        prescription        | payment
+# -----+--------------+------------+--------------------+------------+-----------------------+-----------------+----------------------------+---------
+#    1 | Andrew       | 1912-06-19 | band-aid, glucose  | 1912-07-02 | Hemoglobin, Sugar, BP | Negative in all | Lemonade, Eye drops, Vicks | Done
+#    2 | Hosikage     | 1929-10-09 | Check-up, Insuline | 1929-10-30 | Abc, Xyz              | Positive in Abc | Ear drops, hair oil        | pending
 
 
 
@@ -70,21 +70,26 @@ def show_patients_list():
 @app.route("/patients/<int:sno>", methods=["PUT"], endpoint='update_patients_details')  # Update the details
 @handle_exceptions
 def update_patients_details(sno):          # Update the details of patient
+    # Start the database connection
     cur, conn = connection()
     logger(__name__).warning("Starting the db connection to update the details ")
 
+    # Search the patient if found in the list
     cur.execute("SELECT patient_name from hospital where sno = %s", (sno,))
     get_patient = cur.fetchone()
 
+     # if patient not found then return message
     if not get_patient:
         return jsonify({"message": "Patient not found"}), 200
 
+    # take values from user
     data = request.get_json()
     patient_name = data.get('patient')
     admission = data.get('admission')
     treatments = data.get('treatments')
     discharge = data.get('discharge')
 
+     # Check what value need to be modified
     if patient_name:
         cur.execute("UPDATE hospital SET patient_name = %s WHERE sno = %s", (patient_name, sno))
     elif admission:
@@ -94,6 +99,7 @@ def update_patients_details(sno):          # Update the details of patient
     elif discharge:
         cur.execute("UPDATE hospital SET losses = %s WHERE sno = %s", (discharge, sno))
 
+    # Commit the changes in to table
     conn.commit()
     # Log the details into logger file
     logger(__name__).info(f"Details updated: {data}")
@@ -154,6 +160,124 @@ def delete_patients(sno):
     return jsonify({"message": "Deleted Successfully", "item_no": sno}), 200
 
 
+@app.route("/patients/tests/<int:sno>", methods=["PUT"], endpoint='add_ordered_tests')  # Add tests to be done
+@handle_exceptions
+def add_ordered_tests(sno):
+    # Start the database connection
+    cur, conn = connection()
+    logger(__name__).warning("Starting the db connection to add tests to be done ")
+
+    # Search the patient if found in the list
+    cur.execute("SELECT patient_name from hospital where sno = %s", (sno,))
+    get_patient = cur.fetchone()
+
+     # if patient not found then return message
+    if not get_patient:
+        return jsonify({"message": "Patient not found"}), 200
+
+    # take values from user
+    data = request.get_json()
+    order_tests = data.get('tests')
+
+    cur.execute("UPDATE hospital SET order_tests = %s WHERE sno = %s", (order_tests, sno))
+
+    # Commit the changes in to table
+    conn.commit()
+
+    # Log the details into logger file
+    logger(__name__).info(f"{order_tests} tests has been told by the doctor")
+    return jsonify({"message": f"{order_tests} tests has been told by the doctor",
+                    "Details": data}), 200
+
+
+@app.route("/patients/test_results/<int:sno>", methods=["PUT"], endpoint='test_results')  # Add tests results
+@handle_exceptions
+def add_test_results(sno):
+    # Start the database connection
+    cur, conn = connection()
+    logger(__name__).warning("Starting the db connection to add tests results")
+
+    # Search the patient if found in the list
+    cur.execute("SELECT patient_name from hospital where sno = %s", (sno,))
+    get_patient = cur.fetchone()
+
+     # if patient not found then return message
+    if not get_patient:
+        return jsonify({"message": "Patient not found"}), 200
+
+    # take values from user
+    data = request.get_json()
+    test_results = data.get('results')
+
+    cur.execute("UPDATE hospital SET test_results = %s WHERE sno = %s", (test_results, sno))
+
+    # Commit the changes in to table
+    conn.commit()
+
+    # Log the details into logger file
+    logger(__name__).info(f"Results of test: {data} ")
+    return jsonify({"message": f"Results of test: {data}",
+                    "Details": data}), 200
+
+
+@app.route("/patients/prescription/<int:sno>", methods=["PUT"], endpoint='add_prescription')  # Add prescription
+@handle_exceptions
+def add_prescription(sno):
+    # Start the database connection
+    cur, conn = connection()
+    logger(__name__).warning("Starting the db connection to add prescription")
+
+    # Search the patient if found in the list
+    cur.execute("SELECT patient_name from hospital where sno = %s", (sno,))
+    get_patient = cur.fetchone()
+
+     # if patient not found then return message
+    if not get_patient:
+        return jsonify({"message": "Patient not found"}), 200
+
+    # take values from user
+    data = request.get_json()
+    prescription = data.get('prescription')
+
+    cur.execute("UPDATE hospital SET prescription = %s WHERE sno = %s", (prescription, sno))
+
+    # Commit the changes in to table
+    conn.commit()
+
+    # Log the details into logger file
+    logger(__name__).info(f"{prescription} has been given by the doctor")
+    return jsonify({"message": f"{prescription} has been given by the doctor",
+                    "Details": data}), 200
+
+
+@app.route("/patients/payment_sts/<int:sno>", methods=["PUT"], endpoint='update_payment_status')  # Add prescription
+@handle_exceptions
+def update_payment_status(sno):
+    # Start the database connection
+    cur, conn = connection()
+    logger(__name__).warning("Starting the db connection to update payment status")
+
+    # Search the patient if found in the list
+    cur.execute("SELECT patient_name from hospital where sno = %s", (sno,))
+    get_patient = cur.fetchone()
+
+     # if patient not found then return message
+    if not get_patient:
+        return jsonify({"message": "Patient not found"}), 200
+
+    # take values from user
+    data = request.get_json()
+    payment = data.get('payment')
+
+    cur.execute("UPDATE hospital SET payment = %s WHERE sno = %s", (payment, sno))
+
+    # Commit the changes in to table
+    conn.commit()
+
+    # Log the details into logger file
+    logger(__name__).info(f"Payment status of patient id {sno} has been updated to {payment}")
+    return jsonify({"message": f"Payment status of patient id {sno} has been updated to {payment}",
+                    "Details": data}), 200
 
 
 if __name__ == "__main__":
